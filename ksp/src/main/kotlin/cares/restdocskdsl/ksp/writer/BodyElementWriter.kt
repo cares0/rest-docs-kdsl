@@ -36,9 +36,9 @@ abstract class BodyElementWriter(
         elementNameResolver: BodyElementNameResolver,
     ): TypeSpec? {
         return if (element.nestedElements != null) {
-            val isRootStartWithArray: Boolean = element.isRootElement && element.isStartWithArray
+            val isRootStartWithArray: Boolean = element.isRootElement && element.isArrayBasedType
 
-            val arrayCount = if (element.isStartWithArray) previousArrayCount + 1 else previousArrayCount
+            val arrayCount = if (element.isArrayBasedType) previousArrayCount + 1 else previousArrayCount
 
             TypeSpec.objectBuilder(
                 ClassName(
@@ -56,7 +56,7 @@ abstract class BodyElementWriter(
                     element.nestedElements!!.map {
                         generatePropertySpec(
                             bodyElement = it,
-                            isFieldOfArray = element.isStartWithArray,
+                            isFieldOfArray = element.isArrayBasedType,
                             previousArrayCount = arrayCount,
                             elementNameResolver = elementNameResolver
                         )
@@ -80,7 +80,7 @@ abstract class BodyElementWriter(
         if (!bodyElement.nestedElements.isNullOrEmpty()) {
             val elementName = elementNameResolver.getCurrentName(bodyElement.nestedElementName!!)
 
-            valueKClass = if (bodyElement.isStartWithArray) NestedArrayFieldValue::class
+            valueKClass = if (bodyElement.isArrayBasedType) NestedArrayFieldValue::class
             else NestedFieldValue::class
 
             valueClassName = valueKClass.simpleName!!

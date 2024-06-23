@@ -14,7 +14,7 @@ interface BodyElementExtractor {
         name: String,
         nestedElementName: String? = null,
         nestedElements: List<BodyElement>? = null,
-        startWithArray: Boolean = false,
+        isArrayBasedType: Boolean = false,
         isRootElement: Boolean = false,
     ): BodyElement
 
@@ -53,7 +53,7 @@ interface BodyElementExtractor {
             name = property.simpleName.asString(),
             nestedElementName = if (nestedElements.isEmpty()) null else typeArgumentReference.getSimpleName(),
             nestedElements = nestedElements.ifEmpty { null },
-            startWithArray = true,
+            isArrayBasedType = true,
         )
     }
 

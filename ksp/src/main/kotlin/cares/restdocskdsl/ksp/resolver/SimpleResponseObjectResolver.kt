@@ -27,7 +27,7 @@ class SimpleResponseObjectResolver(
                 name = kSFunction.returnType!!.getSimpleName(),
                 nestedElementName = kSFunction.returnType!!.getSimpleName(),
                 nestedElements = extractElements(kSFunction.returnType!!),
-                startWithArray = false,
+                isArrayBasedType = false,
                 isRootElement = true,
             )
         )

@@ -9,14 +9,14 @@ interface ResponseBodyElementExtractor : BodyElementExtractor {
         name: String,
         nestedElementName: String?,
         nestedElements: List<BodyElement>?,
-        startWithArray: Boolean,
+        isArrayBasedType: Boolean,
         isRootElement: Boolean,
     ): BodyElement {
         return ResponseBodyElement(
             name = name,
             nestedElementName = nestedElementName,
             nestedElements = nestedElements,
-            isStartWithArray = startWithArray,
+            isArrayBasedType = isArrayBasedType,
             isRootElement = isRootElement,
         )
     }

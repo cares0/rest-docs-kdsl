@@ -30,7 +30,7 @@ class SimpleRequestObjectResolver(
             name = kSValueParameter.name!!.getShortName(),
             nestedElementName = kSValueParameter.type.getSimpleName(),
             nestedElements = extractElements(kSValueParameter.type),
-            startWithArray = false,
+            isArrayBasedType = false,
             isRootElement = true,
         )
 

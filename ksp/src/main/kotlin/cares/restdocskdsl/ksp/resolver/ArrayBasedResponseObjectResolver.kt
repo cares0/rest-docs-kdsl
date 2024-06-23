@@ -28,7 +28,7 @@ class ArrayBasedResponseObjectResolver(
                 name = kSFunction.simpleName.getShortName(),
                 nestedElementName = arrayTypeArgumentType.getSimpleName(),
                 nestedElements = extractElements(arrayTypeArgumentType),
-                startWithArray = true,
+                isArrayBasedType = true,
                 isRootElement = true,
             )
         )

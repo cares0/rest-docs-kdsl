@@ -26,7 +26,7 @@ class ArrayBasedRequestObjectResolver(
                 name = kSValueParameter.name!!.getShortName(),
                 nestedElementName = arrayTypeArgumentType.getSimpleName(),
                 nestedElements = extractElements(arrayTypeArgumentType),
-                startWithArray = true,
+                isArrayBasedType = true,
                 isRootElement = true,
             )
         )
