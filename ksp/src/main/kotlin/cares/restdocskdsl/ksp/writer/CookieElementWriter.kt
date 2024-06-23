@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 
 abstract class CookieElementWriter(
     environment: SymbolProcessorEnvironment,
-) : KspHandlerElementWriter<CookieElement>(environment) {
+) : KotlinPoetHandlerElementWriter<CookieElement>(environment) {
 
     override fun createApiComponentTypeSpec(
         descriptor: KspApiSpecDescriptor,

@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 
 class RequestPartElementWriter(
     environment: SymbolProcessorEnvironment,
-) : KspHandlerElementWriter<RequestPartElement>(environment) {
+) : KotlinPoetHandlerElementWriter<RequestPartElement>(environment) {
 
     override fun createApiComponentTypeSpec(
         descriptor: KspApiSpecDescriptor,

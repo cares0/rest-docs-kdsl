@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 
 abstract class BodyElementWriter(
     environment: SymbolProcessorEnvironment
-) : KspHandlerElementWriter<BodyElement>(environment) {
+) : KotlinPoetHandlerElementWriter<BodyElement>(environment) {
 
     override fun createApiComponentTypeSpec(
         descriptor: KspApiSpecDescriptor,

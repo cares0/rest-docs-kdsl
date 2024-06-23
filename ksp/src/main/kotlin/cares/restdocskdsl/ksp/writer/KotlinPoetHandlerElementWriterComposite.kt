@@ -4,7 +4,7 @@ import cares.restdocskdsl.core.ApiSpecDescriptor
 import cares.restdocskdsl.core.HandlerElementWriter
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 
-class KspHandlerElementWriterComposite(
+class KotlinPoetHandlerElementWriterComposite(
     environment: SymbolProcessorEnvironment
 ): HandlerElementWriter {
 

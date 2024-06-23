@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 
 class QueryParameterElementWriter(
     environment: SymbolProcessorEnvironment,
-) : KspHandlerElementWriter<QueryParameterElement>(environment) {
+) : KotlinPoetHandlerElementWriter<QueryParameterElement>(environment) {
 
     override fun createApiComponentTypeSpec(
         descriptor: KspApiSpecDescriptor,

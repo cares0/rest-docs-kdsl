@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 
 class PathVariableElementWriter(
     environment: SymbolProcessorEnvironment,
-) : KspHandlerElementWriter<PathVariableElement>(environment) {
+) : KotlinPoetHandlerElementWriter<PathVariableElement>(environment) {
 
     override fun createApiComponentTypeSpec(
         descriptor: KspApiSpecDescriptor,

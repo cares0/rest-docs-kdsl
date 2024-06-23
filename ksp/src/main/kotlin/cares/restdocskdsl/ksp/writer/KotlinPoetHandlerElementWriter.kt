@@ -11,7 +11,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredFunctions
 
-abstract class KspHandlerElementWriter<T: HandlerElement>(
+abstract class KotlinPoetHandlerElementWriter<T: HandlerElement>(
     environment: SymbolProcessorEnvironment
 ) : HandlerElementWriter {
 

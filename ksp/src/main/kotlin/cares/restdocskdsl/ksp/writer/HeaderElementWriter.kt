@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 
 abstract class HeaderElementWriter(
     environment: SymbolProcessorEnvironment,
-) : KspHandlerElementWriter<HeaderElement>(environment) {
+) : KotlinPoetHandlerElementWriter<HeaderElement>(environment) {
 
     override fun createApiComponentTypeSpec(
         descriptor: KspApiSpecDescriptor,
