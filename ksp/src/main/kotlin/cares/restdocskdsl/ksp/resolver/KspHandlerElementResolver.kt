@@ -6,6 +6,18 @@ import cares.restdocskdsl.core.HandlerElementResolver
 import cares.restdocskdsl.ksp.KspApiSpecDescriptor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 
+/**
+ * Resolves [HandlerElement] from the symbol of a handler function using the KSP.
+ *
+ * @property valueParameterResolver Resolves [HandlerElement] through the parameter declarations of the handler function.
+ * This typically resolves elements like request parameters, parts, body, etc.
+ * @property functionResolver Resolves [HandlerElement] through the declarations of the handler function.
+ * This mainly involves resolving elements based on annotations and the return type declared in the function.
+ * This typically resolves response body, request and response headers, etc.
+ *
+ * @author YoungJun Kim
+ * @see HandlerElement
+ */
 class KspHandlerElementResolver(
     environment: SymbolProcessorEnvironment,
 ) : HandlerElementResolver<ApiSpecDescriptor> {

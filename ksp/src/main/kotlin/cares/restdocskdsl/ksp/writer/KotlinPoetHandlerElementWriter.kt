@@ -11,6 +11,18 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredFunctions
 
+/**
+ * Build implementation of [cares.restdocskdsl.dsl.ApiComponent] and properties of type [cares.restdocskdsl.dsl.ApiValue] in the [KspApiSpecDescriptor] using Kotlin Poet.
+ *
+ * This code uses KotlinPoet to add properties of type `ApiValue` for each implementation
+ * of `ApiComponent` from the list of [HandlerElement] described in [ApiSpecDescriptor].
+ * Depending on the generated `ApiComponent` implementations,
+ * it also implements the appropriate [SnippetGenerator] interface in the [cares.restdocskdsl.dsl.ApiSpec] implementation to enable DSL usage.
+ *
+ * @author YoungJun Kim
+ * @see KspApiSpecDescriptor
+ * @see HandlerElement
+*/
 abstract class KotlinPoetHandlerElementWriter<T: HandlerElement>(
     environment: SymbolProcessorEnvironment
 ) : HandlerElementWriter {

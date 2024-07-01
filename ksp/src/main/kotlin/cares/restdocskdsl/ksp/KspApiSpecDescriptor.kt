@@ -2,7 +2,9 @@ package cares.restdocskdsl.ksp
 
 import cares.restdocskdsl.core.ApiSpecDescriptor
 import cares.restdocskdsl.core.HandlerElement
-import cares.restdocskdsl.dsl.ApiSpec
+import cares.restdocskdsl.dsl.*
+import cares.restdocskdsl.ksp.resolver.*
+import cares.restdocskdsl.ksp.writer.*
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
@@ -11,6 +13,18 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.ksp.writeTo
 import org.springframework.restdocs.snippet.Snippet
 
+/**
+ * A class that describes metadata for the API specification through KSP.
+ * The [ApiSpec] implementation file is generated using KotlinPoet.
+ *
+ * @property [handlerDeclaration] The [KSFunctionDeclaration] of the handler resolved through KSP.
+ * @property [handlerElements] A list of [HandlerElement] resolved from the [KSFunctionDeclaration] by [KspHandlerElementResolver].
+ *  This list is used by [KotlinPoetHandlerElementWriter] to build [ApiValue] and [ApiComponent] implementations for each specific type.
+ *
+ * @author YoungJun Kim
+ * @see KspHandlerElementResolver
+ * @see KotlinPoetHandlerElementWriter
+ */
 class KspApiSpecDescriptor(
     val environment: SymbolProcessorEnvironment,
     val handlerDeclaration: KSFunctionDeclaration,

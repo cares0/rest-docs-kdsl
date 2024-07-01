@@ -6,6 +6,15 @@ import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * A custom implementation of [SymbolProcessor] for processing [RestController] annotation.
+ *
+ * It identifies and processes all classes annotated with `@RestController` in the source code
+ * and passes them to a [RestControllerSymbolVisitor] for further processing.
+ *
+ * @author YoungJun Kim
+ * @see RestControllerSymbolVisitor
+ */
 class RestControllerSymbolProcessor(
     val environment: SymbolProcessorEnvironment,
 ) : SymbolProcessor {
