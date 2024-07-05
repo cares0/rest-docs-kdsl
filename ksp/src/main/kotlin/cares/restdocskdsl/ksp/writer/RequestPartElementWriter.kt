@@ -46,7 +46,7 @@ class RequestPartElementWriter(
     }
 
     override fun getApiComponentObjectName(descriptor: KspApiSpecDescriptor): String {
-        return "${descriptor.handlerName.replaceFirstChar(Char::uppercase)}ApiRequestPart"
+        return "${descriptor.handlerName}ApiRequestPart"
     }
 
 }

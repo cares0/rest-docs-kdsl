@@ -46,7 +46,7 @@ class QueryParameterElementWriter(
     }
 
     override fun getApiComponentObjectName(descriptor: KspApiSpecDescriptor): String {
-        return "${descriptor.handlerName.replaceFirstChar(Char::uppercase)}ApiQueryParameter"
+        return "${descriptor.handlerName}ApiQueryParameter"
     }
 
 }

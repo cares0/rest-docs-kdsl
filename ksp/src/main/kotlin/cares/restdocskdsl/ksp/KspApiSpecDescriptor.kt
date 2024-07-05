@@ -30,15 +30,44 @@ class KspApiSpecDescriptor(
     val handlerDeclaration: KSFunctionDeclaration,
 ) : ApiSpecDescriptor {
 
-    override val handlerName: String = handlerDeclaration.simpleName.asString()
-    override val packageName: String = "${handlerDeclaration.packageName.asString()}.kdsl"
-    override val fileName: String = "${handlerName.replaceFirstChar(Char::uppercase)}Spec"
+    override val packageName: String = "${handlerDeclaration.packageName.asString()}.dsl"
+    override val handlerName: String
+    override val fileName: String
     override val handlerElements: MutableList<HandlerElement> = mutableListOf()
     private val codeGenerator = environment.codeGenerator
-    private val apiSpecFileBuilder = FileSpec.builder(packageName, fileName)
-    val apiSpecTypeBuilder = TypeSpec.classBuilder(fileName)
-        .addModifiers(KModifier.DATA)
-        .addSuperinterface(ApiSpec::class)
+    private val apiSpecFileBuilder: FileSpec.Builder
+    val apiSpecTypeBuilder: TypeSpec.Builder
+
+    init {
+        val duplicatedCount = generateSequence(0) { it + 1 }
+            .filterNot(::checkFileAlreadyExist)
+            .first()
+
+        handlerName = if (duplicatedCount == 0) getOriginalHandlerName()
+        else "${getOriginalHandlerName()}$duplicatedCount"
+
+        fileName = "${handlerName}ApiSpec"
+
+        apiSpecFileBuilder = FileSpec.builder(packageName, fileName)
+        apiSpecTypeBuilder = TypeSpec.classBuilder(fileName)
+            .addModifiers(KModifier.DATA)
+            .addSuperinterface(ApiSpec::class)
+    }
+
+    private fun checkFileAlreadyExist(index: Int): Boolean {
+        val tempFileName = buildString {
+            append(getOriginalHandlerName())
+            if (index > 0) append(index)
+            append("ApiSpec")
+        }
+
+        val filePath = "${packageName.replace(".", "/")}/$tempFileName"
+
+        return codeGenerator.generatedFile.any { it.canonicalPath.contains(filePath) }
+    }
+
+    private fun getOriginalHandlerName() =
+        handlerDeclaration.simpleName.asString().replaceFirstChar(Char::uppercase)
 
     fun addHandlerElements(handlerElements: List<HandlerElement>) {
         this.handlerElements.addAll(handlerElements.distinct())
