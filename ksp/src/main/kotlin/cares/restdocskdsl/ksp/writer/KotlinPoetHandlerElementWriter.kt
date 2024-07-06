@@ -61,7 +61,7 @@ abstract class KotlinPoetHandlerElementWriter<T: HandlerElement>(
             CodeBlock.builder()
                 .add("addValues(\n")
                 .indent()
-                .add(elements.joinToString(separator = ",\n") { it.name })
+                .add(elements.joinToString(separator = ",\n") { "`${it.name}`" })
                 .unindent()
                 .add("\n)\n")
                 .build()
