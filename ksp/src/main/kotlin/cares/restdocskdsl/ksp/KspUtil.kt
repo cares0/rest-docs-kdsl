@@ -27,12 +27,20 @@ fun KSTypeReference.isJavaApi(): Boolean {
     return this.getQualifiedName()?.startsWith("java") ?: false
 }
 
+fun KSTypeReference.isJavaTimeApi(): Boolean {
+    return this.getQualifiedName()?.startsWith("java.time") ?: false
+}
+
 fun KSTypeReference.isKotlinApi(): Boolean {
     return this.getQualifiedName()?.startsWith("kotlin") ?: false
 }
 
 fun KSTypeReference.isSpringApi(): Boolean {
     return this.getQualifiedName()?.startsWith("org.springframework") ?: false
+}
+
+fun KSTypeReference.isServletApi(): Boolean {
+    return this.getQualifiedName()?.startsWith("jakarta.servlet") ?: false
 }
 
 fun KSTypeReference.isEnumType(): Boolean {
