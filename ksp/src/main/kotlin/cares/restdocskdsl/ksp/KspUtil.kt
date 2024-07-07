@@ -63,7 +63,7 @@ fun KSPropertyDeclaration.getActualTypeOfTypeArgument(
     }
 
     return if (firstIndex != -1) {
-        typeReference.element!!.typeArguments[firstIndex].type
+        typeReference.getTypeArguments()[firstIndex].type
     } else null
 }
 

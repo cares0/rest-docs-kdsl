@@ -26,15 +26,15 @@ class SimpleRequestObjectResolver(
     }
 
     override fun resolve(kSValueParameter: KSValueParameter): List<HandlerElement> {
-        val element = createBodyElement(
-            name = kSValueParameter.name!!.getShortName(),
-            nestedElementName = kSValueParameter.type.getSimpleName(),
-            nestedElements = extractElements(kSValueParameter.type),
-            isArrayBasedType = false,
-            isRootElement = true,
+        return listOf(
+            createBodyElement(
+                name = kSValueParameter.name!!.getShortName(),
+                nestedElementName = kSValueParameter.type.getSimpleName(),
+                nestedElements = extractElements(kSValueParameter.type),
+                isArrayBasedType = false,
+                isRootElement = true,
+            )
         )
-
-        return listOf(element)
     }
 
 }
