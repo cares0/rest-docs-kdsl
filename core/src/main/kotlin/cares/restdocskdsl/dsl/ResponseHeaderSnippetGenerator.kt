@@ -7,16 +7,16 @@ import org.springframework.restdocs.snippet.Snippet
 interface ResponseHeaderSnippetGenerator<C: ApiComponent<HeaderDescriptor>> : SnippetGenerator {
 
     fun responseHeader(dsl: C.() -> Unit) {
-        val responseHeaderComponent = getRequestHeaderApiComponent()
+        val responseHeaderComponent = getResponseHeaderApiComponent()
         responseHeaderComponent.dsl()
         addSnippet(
-            generateRequestHeaderSnippet(
+            generateResponseHeaderSnippet(
                 element = responseHeaderComponent,
             )
         )
     }
 
-    fun generateRequestHeaderSnippet(
+    fun generateResponseHeaderSnippet(
         element: ApiComponent<HeaderDescriptor>,
     ): Snippet {
         return HeaderDocumentation.responseHeaders(
@@ -24,6 +24,6 @@ interface ResponseHeaderSnippetGenerator<C: ApiComponent<HeaderDescriptor>> : Sn
         )
     }
 
-    fun getRequestHeaderApiComponent(): C
+    fun getResponseHeaderApiComponent(): C
 
 }
