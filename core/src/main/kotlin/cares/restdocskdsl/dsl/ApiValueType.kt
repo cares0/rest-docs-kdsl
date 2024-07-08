@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
  * @param customFormat specifies commonly used formats for each type.
  * @author YoungJun Kim
  */
-sealed class ApiValueType(
+open class ApiValueType(
     val fieldType: JsonFieldType,
     open val customFormat: String? = null
 )
@@ -35,28 +35,16 @@ data class ENUM<T : Enum<T>>(
 ) : ApiValueType(JsonFieldType.STRING) {
 
     /**
-     * Used when creating documentation files for Enum constant values in a pop-up format.
+     * This constructor is used when filtering specific values from the Enum
+     * and include them in the format.
      */
-    constructor(clazz: KClass<T>) : this(
-        enums = clazz.java.enumConstants.asList(),
-        customFormat = createPopupLink(camelToKebabCase(clazz.simpleName!!))
+    constructor(
+        clazz: KClass<T>,
+        filter: (T.() -> Boolean)? = null
+    ) : this(
+        enums = clazz.java.enumConstants.asList().let {
+            if (filter != null) it.filter(filter) else it
+        },
     )
 
-}
-
-fun camelToKebabCase(input: String): String {
-    if (input.isEmpty()) return input
-
-    val result = StringBuilder()
-    input.forEachIndexed { index, char ->
-        if (char.isUpperCase()) {
-            if (index != 0) {
-                result.append('-')
-            }
-            result.append(char.lowercaseChar())
-        } else {
-            result.append(char)
-        }
-    }
-    return result.toString()
 }
