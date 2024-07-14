@@ -45,6 +45,7 @@ class KspHandlerElementResolver(
         ArrayBasedResponseObjectResolver(logger),
         ResponseCookieElementResolver(logger),
         ResponseHeaderElementResolver(logger),
+        ResponseEntityObjectResolver(logger),
     )
 
     override fun isSupport(node: ApiSpecDescriptor): Boolean {

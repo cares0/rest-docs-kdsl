@@ -97,7 +97,3 @@ tasks.register<Copy>("buildDocument") {
     from(file("src/main/resources/static/docs"))
     into(file("build/resources/main/static/docs"))
 }
-
-tasks.resolveMainClassName.configure {
-    dependsOn(tasks.named("buildDocument"))
-}

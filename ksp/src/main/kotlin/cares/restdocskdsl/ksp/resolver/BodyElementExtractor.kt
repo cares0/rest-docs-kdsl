@@ -35,12 +35,12 @@ interface BodyElementExtractor {
 
         return when {
             KotlinBuiltinName.isPrimitiveType(propertyTypeName)
-                    || propertyTypeName == KotlinBuiltinName.MAP -> createBodyElement(property.simpleName.asString())
+                    || propertyTypeName == KotlinBuiltinName.MAP
+                    || property.type.isJavaTimeApi() -> createBodyElement(property.simpleName.asString())
             KotlinBuiltinName.isArrayBasedType(propertyTypeName) -> handleArrayBasedType(property)
             property.isGenericType() -> handleGenericType(parentTypeReference, property)
             else -> handleCustomObjectType(property)
         }
-
     }
 
     fun handleArrayBasedType(

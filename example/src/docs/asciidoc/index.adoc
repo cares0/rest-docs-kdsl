@@ -1,0 +1,90 @@
+= Example Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:docinfo: shared-head
+
+[[simple-usage]]
+== Simple Usage
+=== Request example
+include::{snippets}/simple-usage/http-request.adoc[]
+
+=== Request body explanation
+include::{snippets}/simple-usage/request-fields.adoc[]
+
+=== Response example
+include::{snippets}/simple-usage/http-response.adoc[]
+
+=== Response body explanation
+include::{snippets}/simple-usage/response-fields.adoc[]
+
+[[full-usage]]
+== Full Usage
+=== Request example
+include::{snippets}/full-usage/http-request.adoc[]
+
+=== Path variable explanation
+include::{snippets}/full-usage/path-parameters.adoc[]
+
+=== Query parameter explanation
+include::{snippets}/full-usage/query-parameters.adoc[]
+
+=== Request cookie explanation
+include::{snippets}/full-usage/request-cookies.adoc[]
+
+=== Request header explanation
+include::{snippets}/full-usage/request-headers.adoc[]
+
+=== Request body explanation
+include::{snippets}/full-usage/request-fields.adoc[]
+
+==== bodyObjectProperty
+include::{snippets}/full-usage/request-fields-bodyObjectProperty.adoc[]
+
+==== bodyObjectListProperty
+include::{snippets}/full-usage/request-fields-bodyObjectListProperty.adoc[]
+
+==== bodyObjectNestedObjectProperty
+include::{snippets}/full-usage/request-fields-bodyObjectNestedObjectProperty.adoc[]
+
+==== bodyObjectNestedObjectListProperty
+include::{snippets}/full-usage/request-fields-bodyObjectNestedObjectListProperty.adoc[]
+
+==== bodyNestedObjectMultiNestedObjectProperty
+include::{snippets}/full-usage/request-fields-bodyNestedObjectMultiNestedObjectProperty.adoc[]
+
+==== bodyNestedObjectMultiNestedObjectListProperty
+include::{snippets}/full-usage/request-fields-bodyNestedObjectMultiNestedObjectListProperty.adoc[]
+
+=== Response example
+include::{snippets}/full-usage/http-response.adoc[]
+
+=== Response body explanation
+include::{snippets}/full-usage/response-fields.adoc[]
+
+==== bodyObjectProperty
+include::{snippets}/full-usage/response-fields-bodyObjectProperty.adoc[]
+
+==== bodyObjectListProperty
+include::{snippets}/full-usage/response-fields-bodyObjectListProperty.adoc[]
+
+==== bodyObjectNestedObjectProperty
+include::{snippets}/full-usage/response-fields-bodyObjectNestedObjectProperty.adoc[]
+
+==== bodyObjectNestedObjectListProperty
+include::{snippets}/full-usage/response-fields-bodyObjectNestedObjectListProperty.adoc[]
+
+==== bodyNestedObjectMultiNestedObjectProperty
+include::{snippets}/full-usage/response-fields-bodyNestedObjectMultiNestedObjectProperty.adoc[]
+
+==== bodyNestedObjectMultiNestedObjectListProperty
+include::{snippets}/full-usage/response-fields-bodyNestedObjectMultiNestedObjectListProperty.adoc[]
+
+=== Response cookie explanation
+include::{snippets}/full-usage/response-cookies.adoc[]
+
+=== Response header explanation
+include::{snippets}/full-usage/response-headers.adoc[]

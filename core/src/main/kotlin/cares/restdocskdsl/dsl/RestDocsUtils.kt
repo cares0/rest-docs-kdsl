@@ -9,10 +9,6 @@ import org.springframework.test.web.servlet.MockMvcResultHandlersDsl
 fun AbstractDescriptor<*>.format(value: Any): AbstractDescriptor<*> =
     this.attributes(Attributes.key("format").value(value))
 
-fun createPopupLink(popupFileName: String, popupDescription: String? = null): String {
-    return "link:popup/$popupFileName.html[${popupDescription ?: "Available Value"},role=\"popup\"]"
-}
-
 fun <T: ApiSpec> MockMvcResultHandlersDsl.document(apiSpec: T, dsl: T.() -> Unit) {
     apiSpec.dsl()
     this.handle(

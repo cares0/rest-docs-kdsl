@@ -48,7 +48,7 @@ class RequestCookieElementWriter(
     }
 
     override fun getApiComponentObjectName(descriptor: KspApiSpecDescriptor): String {
-        return "${descriptor.handlerName.replaceFirstChar(Char::uppercase)}ApiRequestCookie"
+        return "${descriptor.handlerName}ApiRequestCookie"
     }
 
 }
@@ -65,7 +65,7 @@ class ResponseCookieElementWriter(
     }
 
     override fun getApiComponentObjectName(descriptor: KspApiSpecDescriptor): String {
-        return "${descriptor.handlerName.replaceFirstChar(Char::uppercase)}ApiResponseCookie"
+        return "${descriptor.handlerName}ApiResponseCookie"
     }
 
 }

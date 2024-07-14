@@ -46,7 +46,7 @@ class PathVariableElementWriter(
     }
 
     override fun getApiComponentObjectName(descriptor: KspApiSpecDescriptor): String {
-        return "${descriptor.handlerName.replaceFirstChar(Char::uppercase)}ApiPathVariable"
+        return "${descriptor.handlerName}ApiPathVariable"
     }
 
 }

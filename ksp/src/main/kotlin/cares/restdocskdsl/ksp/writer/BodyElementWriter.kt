@@ -149,7 +149,7 @@ class RequestBodyElementWriter(
     }
 
     override fun getApiComponentObjectName(descriptor: KspApiSpecDescriptor): String {
-        return "${descriptor.handlerName.replaceFirstChar(Char::uppercase)}ApiRequestBody"
+        return "${descriptor.handlerName}ApiRequestBody"
     }
 }
 
@@ -165,6 +165,6 @@ class ResponseBodyElementWriter(
     }
 
     override fun getApiComponentObjectName(descriptor: KspApiSpecDescriptor): String {
-        return "${descriptor.handlerName.replaceFirstChar(Char::uppercase)}ApiResponseBody"
+        return "${descriptor.handlerName}ApiResponseBody"
     }
 }
