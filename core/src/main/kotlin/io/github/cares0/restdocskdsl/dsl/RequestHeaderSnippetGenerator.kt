@@ -6,7 +6,7 @@ import org.springframework.restdocs.snippet.Snippet
 
 interface RequestHeaderSnippetGenerator<C: ApiComponent<HeaderDescriptor>> : SnippetGenerator {
 
-    fun requestHeader(dsl: C.() -> Unit) {
+    fun requestHeaders(dsl: C.() -> Unit) {
         val requestHeaderComponent = getRequestHeaderApiComponent()
         requestHeaderComponent.dsl()
         addSnippet(

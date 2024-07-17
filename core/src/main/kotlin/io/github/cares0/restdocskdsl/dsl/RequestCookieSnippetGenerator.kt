@@ -6,7 +6,7 @@ import org.springframework.restdocs.snippet.Snippet
 
 interface RequestCookieSnippetGenerator<C: ApiComponent<CookieDescriptor>> : SnippetGenerator {
 
-    fun requestCookie(dsl: C.() -> Unit) {
+    fun requestCookies(dsl: C.() -> Unit) {
         val requestCookieComponent = getRequestCookieApiComponent()
         requestCookieComponent.dsl()
         addSnippet(generateRequestCookieSnippet(requestCookieComponent))

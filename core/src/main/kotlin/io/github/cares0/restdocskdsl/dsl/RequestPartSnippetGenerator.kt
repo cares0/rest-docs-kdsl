@@ -6,7 +6,7 @@ import org.springframework.restdocs.snippet.Snippet
 
 interface RequestPartSnippetGenerator<C: ApiComponent<RequestPartDescriptor>> : SnippetGenerator {
 
-    fun requestPart(dsl: C.() -> Unit) {
+    fun requestParts(dsl: C.() -> Unit) {
         val requestPartComponent = getRequestPartApiComponent()
         requestPartComponent.dsl()
         addSnippet(generateRequestPartSnippet(requestPartComponent))

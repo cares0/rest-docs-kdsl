@@ -6,7 +6,7 @@ import org.springframework.restdocs.snippet.Snippet
 
 interface PathVariableSnippetGenerator<C: ApiComponent<ParameterDescriptor>> : SnippetGenerator {
 
-    fun pathVariable(dsl: C.() -> Unit) {
+    fun pathVariables(dsl: C.() -> Unit) {
         val pathVariableComponent = getPathVariableApiComponent()
         pathVariableComponent.dsl()
         addSnippet(

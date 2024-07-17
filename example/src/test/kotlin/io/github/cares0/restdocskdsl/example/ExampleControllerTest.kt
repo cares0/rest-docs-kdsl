@@ -50,7 +50,7 @@ class ExampleControllerTest {
         }.andDo {
             print()
             document(SimpleUsageApiSpec("simple-usage")) {
-                requestHeader {
+                requestHeaders {
                     `X-Csrf-Token` means "CSRF Token" typeOf STRING
                 }
                 requestBody {
@@ -103,22 +103,22 @@ class ExampleControllerTest {
         }.andDo {
             print()
             document(FullUsageApiSpec("full-usage")) {
-                pathVariable {
+                pathVariables {
                     exampleId means "path-variable" typeOf STRING
                 }
-                requestCookie {
+                requestCookies {
                     intCookieValue means "int-cookie-value" typeOf NUMBER
                     stringCookieValue means "string-cookie-value" typeOf STRING
                     requestCookieAnnotation1 means "request-cookie-annotation-1" typeOf STRING
                     requestCookieAnnotation2 means "request-cookie-annotation-2" typeOf STRING
                 }
-                requestHeader {
+                requestHeaders {
                     intHeaderValue means "intHeaderValue" typeOf NUMBER
                     stringHeaderValue means "stringHeaderValue" typeOf STRING
                     requestHeaderAnnotation1 means "requestHeaderAnnotation1" typeOf STRING
                     requestHeaderAnnotation2 means "requestHeaderAnnotation2" typeOf STRING
                 }
-                queryParameter {
+                queryParameters {
                     intRequestParam means "intRequestParam" typeOf NUMBER
                     stringRequestParam means "stringRequestParam" typeOf STRING
                     arrayRequestParam means "arrayRequestParam" typeOf ARRAY
@@ -289,11 +289,11 @@ class ExampleControllerTest {
                         }
                     }
                 }
-                responseHeader {
+                responseHeaders {
                     responseHeaderAnnotation1 means "responseHeaderAnnotation1" typeOf STRING
                     responseHeaderAnnotation2 means "responseHeaderAnnotation2" typeOf STRING
                 }
-                responseCookie {
+                responseCookies {
                     responseCookieAnnotation1 means "responseCookieAnnotation1" typeOf STRING
                     responseCookieAnnotation2 means "responseCookieAnnotation2" typeOf STRING
                 }

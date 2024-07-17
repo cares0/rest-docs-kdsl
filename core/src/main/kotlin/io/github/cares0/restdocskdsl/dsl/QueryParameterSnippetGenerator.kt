@@ -6,7 +6,7 @@ import org.springframework.restdocs.snippet.Snippet
 
 interface QueryParameterSnippetGenerator<C: ApiComponent<ParameterDescriptor>> : SnippetGenerator {
 
-    fun queryParameter(dsl: C.() -> Unit) {
+    fun queryParameters(dsl: C.() -> Unit) {
         val queryParameterComponent = getQueryParameterApiComponent()
         queryParameterComponent.dsl()
         addSnippet(generateQueryParameterSnippet(queryParameterComponent))
