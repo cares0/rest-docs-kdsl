@@ -10,16 +10,16 @@ import com.google.devtools.ksp.symbol.KSNode
 import org.springframework.web.bind.annotation.*
 
 /**
- * A visitor that processes classes annotated with [RestController]
- * to identify and handle request handler functions annotated with Spring's request mapping annotations.
+ * Filters handler functions and passes them to the `HandlerDeclarationVisitor`.
  *
- * This visitor scans the class declarations, filters the functions that are handlers,
- * and passes them to the [HandlerDeclarationVisitor] for further processing.
+ * If the provided symbol is a `ClassDeclaration`, it filters all functions declared within that class.
+ * If the provided symbol is a `FunctionDeclaration`, it filters whether the function is a handler.
+ * The filtering process is based on Spring's request mapping annotations.
  *
  * @author YoungJun Kim
  * @see HandlerDeclarationVisitor
  */
-class RestControllerSymbolVisitor(
+class HandlerFilterVisitor(
     environment: SymbolProcessorEnvironment,
 ) : SymbolEnvironmentDefaultVisitor<Resolver, Unit>(environment) {
 
@@ -37,7 +37,11 @@ class RestControllerSymbolVisitor(
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Resolver) {
         classDeclaration.getDeclaredFunctions()
             .filter(::isHandler)
-            .forEach { handlerDeclaration -> handlerDeclaration.accept(handlerDeclarationVisitor, data) }
+            .forEach { it.accept(handlerDeclarationVisitor, data) }
+    }
+
+    override fun visitFunctionDeclaration(function: KSFunctionDeclaration, data: Resolver) {
+        if (isHandler(function)) function.accept(handlerDeclarationVisitor, data)
     }
 
     private fun isHandler(function: KSFunctionDeclaration) = function.annotations
