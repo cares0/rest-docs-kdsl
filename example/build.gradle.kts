@@ -1,5 +1,4 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.google.devtools.ksp")
@@ -14,6 +13,12 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
@@ -22,9 +27,6 @@ configurations {
 
 val snippetsDir = file("build/generated-snippets").also { extra["snippetsDir"] = it }
 val asciidoctorExtensions: Configuration by configurations.creating
-
-val querydslVersion = "5.0.0"
-extra["springCloudVersion"] = "2022.0.3"
 
 repositories {
     mavenCentral()
@@ -43,57 +45,46 @@ dependencies {
     asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
-tasks.compileTestKotlin {
-    dependsOn("kspTestKotlin")
-    dependsOn("kspKotlin")
-}
-
-tasks.test {
-    testLogging {
-        showStandardStreams = true
-        showCauses = true
-        showExceptions = true
-        showStackTraces = true
-        exceptionFormat = TestExceptionFormat.FULL
+    test {
+        testLogging {
+            showStandardStreams = true
+            showCauses = true
+            showExceptions = true
+            showStackTraces = true
+            exceptionFormat = TestExceptionFormat.FULL
+        }
+        outputs.dir(snippetsDir)
+        reports.html.required = true
     }
-    outputs.dir(snippetsDir)
-    reports.html.required = true
-}
+    asciidoctor {
+        configurations(asciidoctorExtensions.name)
+        inputs.dir(snippetsDir)
+        dependsOn(test)
+        sources {
+            include("**/index.adoc", "**/popup/*.adoc")
+        }
 
-tasks.asciidoctor {
-    configurations(asciidoctorExtensions.name)
-    inputs.dir(snippetsDir)
-    dependsOn(tasks.test)
-    sources {
-        include("**/index.adoc", "**/popup/*.adoc")
+        baseDirFollowsSourceFile()
+
+        doFirst {
+            delete(file("src/main/resources/static/docs"))
+        }
     }
-
-    baseDirFollowsSourceFile()
-
-    doFirst {
-        delete(file("src/main/resources/static/docs"))
+    register<Copy>("copyDocument") {
+        dependsOn(asciidoctor)
+        from(file("build/docs/asciidoc"))
+        into(file("src/main/resources/static/docs"))
     }
-}
-
-tasks.register<Copy>("copyDocument").configure {
-    dependsOn(tasks.asciidoctor)
-    from(file("build/docs/asciidoc"))
-    into(file("src/main/resources/static/docs"))
-}
-
-tasks.register<Copy>("buildDocument") {
-    dependsOn("copyDocument")
-    from(file("src/main/resources/static/docs"))
-    into(file("build/resources/main/static/docs"))
+    register<Copy>("buildDocument") {
+        dependsOn("copyDocument")
+        from(file("src/main/resources/static/docs"))
+        into(file("build/resources/main/static/docs"))
+    }
+    bootJar { dependsOn("buildDocument") }
+    jar { dependsOn("buildDocument") }
+    resolveMainClassName { dependsOn("buildDocument") }
 }

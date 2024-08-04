@@ -25,4 +25,3 @@ rootProject.name = "rest-docs-kdsl"
 include("core")
 include("example")
 include("ksp")
-include("ksp")
