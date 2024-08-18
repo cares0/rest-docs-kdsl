@@ -18,8 +18,16 @@ class ResponseEntityObjectResolver(
         val returnType = kSFunction.returnType ?: return false
         val typeName = returnType.getQualifiedName()!!
 
-        return !KotlinBuiltinName.isBuiltinType(typeName)
-                && typeName == ResponseEntity::class.qualifiedName
+        return if (!KotlinBuiltinName.isBuiltinType(typeName)
+            && typeName == ResponseEntity::class.qualifiedName
+        ) {
+            val typeArgumentTypeName =
+                returnType.getTypeArguments().first().type!!.getQualifiedName()!!
+
+            !KotlinBuiltinName.isBuiltinType(typeArgumentTypeName)
+                    && !typeArgumentTypeName.contains("org.springframework")
+                    && !typeArgumentTypeName.contains("jakarta.servlet")
+        } else false
     }
 
     override fun resolve(kSFunction: KSFunctionDeclaration): List<HandlerElement> {

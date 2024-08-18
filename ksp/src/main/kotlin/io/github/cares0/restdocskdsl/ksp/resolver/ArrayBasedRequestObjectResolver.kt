@@ -13,9 +13,18 @@ class ArrayBasedRequestObjectResolver(
 
     override fun isSupport(kSValueParameter: KSValueParameter): Boolean {
         val typeName = kSValueParameter.type.getQualifiedName()!!
+        val isArrayBasedType = KotlinBuiltinName.isArrayBasedType(typeName)
 
-        return kSValueParameter.containsAnnotation(RequestBody::class)
-                && KotlinBuiltinName.isArrayBasedType(typeName)
+        return if (!isArrayBasedType) false
+        else {
+            val typeArgumentTypeName =
+                kSValueParameter.type.getTypeArguments().first().type!!.getQualifiedName()!!
+
+            kSValueParameter.containsAnnotation(RequestBody::class)
+                    && !KotlinBuiltinName.isBuiltinType(typeArgumentTypeName)
+                    && !typeArgumentTypeName.contains("org.springframework")
+                    && !typeArgumentTypeName.contains("jakarta.servlet")
+        }
     }
 
     override fun resolve(kSValueParameter: KSValueParameter): List<HandlerElement> {
