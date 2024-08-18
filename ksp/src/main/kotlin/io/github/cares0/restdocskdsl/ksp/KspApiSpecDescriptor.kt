@@ -88,7 +88,9 @@ class KspApiSpecDescriptor(
     private fun implementApiSpec() {
         overrideIdentifierProperty()
         overrideSnippetsProperty()
-        overrideSnippetsFunctions()
+        if (handlerElements.isNotEmpty()) {
+            overrideSnippetsFunctions()
+        }
     }
 
     private fun overrideIdentifierProperty() {
