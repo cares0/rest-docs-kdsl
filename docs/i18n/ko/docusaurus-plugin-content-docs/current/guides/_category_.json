@@ -1,0 +1,8 @@
+{
+  "label": "가이드",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "이 라이브러리가 제공하는 전체 기능들의 사용법을 제공합니다."
+  }
+}
