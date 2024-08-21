@@ -95,6 +95,12 @@ const config = {
               label: 'Docs',
             },
             {
+              type: 'docsVersionDropdown',
+              sidebarId: 'docsVersionDropdown',
+              position: 'left',
+              label: 'Version',
+            },
+            {
               href: 'https://github.com/cares0/rest-docs-kdsl',
               label: 'GitHub',
               position: 'right',
