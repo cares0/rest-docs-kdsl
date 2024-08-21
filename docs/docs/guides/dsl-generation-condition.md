@@ -28,7 +28,7 @@ For functions identified as handlers, the function’s annotations, parameters,
 and return types are analyzed to determine the appropriate HTTP components. 
 Each determined element is converted into a `HandlerElement` implementation. 
 Depending on the type of implementation, 
-it is declared as a member property of the appropriate `ApiComponent` implementation with an `ApiValue` type.
+it is declared as a member property of the appropriate `ApiComponent` implementation with an `ApiField` type.
 
 Except for cases where values cannot be determined at compile time, 
 components are determined based on [Handler Methods](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods.html) in Spring Web MVC.

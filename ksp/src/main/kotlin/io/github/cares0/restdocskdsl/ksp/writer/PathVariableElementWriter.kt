@@ -28,8 +28,8 @@ class PathVariableElementWriter(
             .superclass(ApiComponent::class.parameterizedBy(ParameterDescriptor::class))
             .addProperties(
                 filteredElements.map { element ->
-                    PropertySpec.builder(element.name, PathVariableValue::class)
-                        .initializer("${PathVariableValue::class.simpleName}(\"${element.name}\")")
+                    PropertySpec.builder(element.name, PathVariableField::class)
+                        .initializer("${PathVariableField::class.simpleName}(\"${element.name}\")")
                         .build()
                 }
             )

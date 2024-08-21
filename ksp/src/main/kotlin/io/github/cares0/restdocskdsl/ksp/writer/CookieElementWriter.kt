@@ -28,8 +28,8 @@ abstract class CookieElementWriter(
             .superclass(ApiComponent::class.parameterizedBy(CookieDescriptor::class))
             .addProperties(
                 filteredElements.map { element ->
-                    PropertySpec.builder(element.name, CookieValue::class)
-                        .initializer("${CookieValue::class.simpleName}(\"${element.name}\")")
+                    PropertySpec.builder(element.name, CookieField::class)
+                        .initializer("${CookieField::class.simpleName}(\"${element.name}\")")
                         .build()
                 }
             )

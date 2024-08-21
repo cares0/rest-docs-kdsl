@@ -12,7 +12,7 @@ package io.github.cares0.restdocskdsl.core
  * ```
  * In a handler function like the one above, `param1`,
  * which is bound to the request parameter, is converted into a `HandlerElement`.
- * It is then used when declaring a DSL object of type `ApiValue`.
+ * It is then used when declaring a DSL object of type `ApiField`.
  *
  * @property name The name of the element. In the example above,
  * the `HandlerElement` corresponding to `param1` will have its name set to "param1".

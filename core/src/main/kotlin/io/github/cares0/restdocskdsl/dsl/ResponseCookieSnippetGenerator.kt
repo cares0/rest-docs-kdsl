@@ -16,7 +16,7 @@ interface ResponseCookieSnippetGenerator<C: ApiComponent<CookieDescriptor>> : Sn
         element: ApiComponent<CookieDescriptor>
     ): Snippet {
         return CookieDocumentation.responseCookies(
-            element.apiValues.map { it.descriptor }
+            element.apiFields.map { it.descriptor }
         )
     }
 

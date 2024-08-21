@@ -4,7 +4,7 @@ import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.restdocs.snippet.Snippet
 
-interface ResponseBodySnippetGenerator<C: FieldComponent> : SnippetGenerator {
+interface ResponseBodySnippetGenerator<C: BodyComponent> : SnippetGenerator {
 
     fun responseBody(dsl: C.(element: C) -> Unit) {
         val responseBodyComponent = getResponseBodyApiComponent()
@@ -26,20 +26,20 @@ interface ResponseBodySnippetGenerator<C: FieldComponent> : SnippetGenerator {
         val snippets = mutableListOf<Snippet>()
         val descriptors = mutableListOf<FieldDescriptor>()
 
-        for (apiValue in apiComponent.apiValues) {
-            if (apiValue is NestedFieldValue<*>) {
-                descriptors.add(apiValue.descriptor)
+        for (apiField in apiComponent.apiFields) {
+            if (apiField is NestedJsonField<*>) {
+                descriptors.add(apiField.descriptor)
                 snippets.addAll(
                     generateResponseBodySnippets(
-                        apiComponent = apiValue.nestedElement,
-                        name = apiValue.name,
+                        apiComponent = apiField.nestedElement,
+                        name = apiField.name,
                         previousBeneathPathName = if (previousBeneathPathName != null)
-                            "$previousBeneathPathName.${apiValue.beneathPathName}"
-                        else apiValue.beneathPathName
+                            "$previousBeneathPathName.${apiField.beneathPathName}"
+                        else apiField.beneathPathName
                     )
                 )
-            } else if (apiValue is FieldValue) {
-                descriptors.add(apiValue.descriptor)
+            } else if (apiField is JsonField) {
+                descriptors.add(apiField.descriptor)
             }
         }
 

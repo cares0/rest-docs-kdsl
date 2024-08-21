@@ -15,7 +15,9 @@ and generate adoc files for each API in a streamlined manner.
 
 | Library Version | Kotlin Version | KSP Version        | Spring REST Docs Version |
 |-----------------|----------------|--------------------|--------------------------|
-| `1.0.3`         | `2.0.0`        | `2.0.0-1.0.21`     | `3.0.1`                   |
+| `1.0.4`         | `2.0.0`        | `2.0.0-1.0.21`     | `3.0.1`                   |
+
+Version 1.0.4 is the minimum version required for this library.
 
 ## Setup
 

@@ -16,7 +16,7 @@ interface RequestPartSnippetGenerator<C: ApiComponent<RequestPartDescriptor>> : 
         component: ApiComponent<RequestPartDescriptor>,
     ): Snippet {
         return RequestDocumentation.requestParts(
-            component.apiValues.map { it.descriptor }
+            component.apiFields.map { it.descriptor }
         )
     }
 

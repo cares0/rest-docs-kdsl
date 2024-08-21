@@ -28,8 +28,8 @@ class QueryParameterElementWriter(
             .superclass(ApiComponent::class.parameterizedBy(ParameterDescriptor::class))
             .addProperties(
                 filteredElements.map { element ->
-                    PropertySpec.builder(element.name, QueryParameterValue::class)
-                        .initializer("${QueryParameterValue::class.simpleName}(\"${element.name}\")")
+                    PropertySpec.builder(element.name, QueryParameterField::class)
+                        .initializer("${QueryParameterField::class.simpleName}(\"${element.name}\")")
                         .build()
                 }
             )

@@ -6,7 +6,7 @@ import io.github.cares0.restdocskdsl.dsl.*
  * Describes the API specifications.
  *
  * A list of [HandlerElement] is resolved from the handler by the [HandlerElementResolver].
- * The resolved [HandlerElement] list is then converted into the [ApiValue] type properties
+ * The resolved [HandlerElement] list is then converted into the [ApiField] type properties
  * of an [ApiComponent] implementation by the [HandlerElementWriter].
  * Finally, the implementation of the [ApiSpec] for each API is built,
  * and the built [ApiComponent] and [ApiSpec] implementations are written to a single file.

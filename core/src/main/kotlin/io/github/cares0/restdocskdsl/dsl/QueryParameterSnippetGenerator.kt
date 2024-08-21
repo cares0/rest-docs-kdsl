@@ -16,7 +16,7 @@ interface QueryParameterSnippetGenerator<C: ApiComponent<ParameterDescriptor>> :
         component: ApiComponent<ParameterDescriptor>,
     ): Snippet {
         return RequestDocumentation.queryParameters(
-            component.apiValues.map { it.descriptor }
+            component.apiFields.map { it.descriptor }
         )
     }
 

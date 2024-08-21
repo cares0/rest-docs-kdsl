@@ -20,7 +20,7 @@ interface PathVariableSnippetGenerator<C: ApiComponent<ParameterDescriptor>> : S
         element: ApiComponent<ParameterDescriptor>,
     ): Snippet {
         return RequestDocumentation.pathParameters(
-            element.apiValues.map { it.descriptor }
+            element.apiFields.map { it.descriptor }
         )
     }
 

@@ -49,7 +49,7 @@ abstract class BodyElementWriter(
                     )
                 )
             )
-                .superclass(FieldComponent::class)
+                .superclass(BodyComponent::class)
                 .addSuperclassConstructorParameter("$isRootStartWithArray")
                 .addTypes(resolveNestedClassesSpec(descriptor, element, arrayCount, elementNameResolver))
                 .addProperties(
@@ -80,8 +80,8 @@ abstract class BodyElementWriter(
         if (!bodyElement.nestedElements.isNullOrEmpty()) {
             val elementName = elementNameResolver.getCurrentName(bodyElement.nestedElementName!!)
 
-            valueKClass = if (bodyElement.isArrayBasedType) NestedArrayFieldValue::class
-            else NestedFieldValue::class
+            valueKClass = if (bodyElement.isArrayBasedType) NestedArrayJsonField::class
+            else NestedJsonField::class
 
             valueClassName = valueKClass.simpleName!!
             valueClassTypeParameterName = elementName
@@ -93,7 +93,7 @@ abstract class BodyElementWriter(
                 .add("$previousArrayCount)")
                 .build()
         } else {
-            valueKClass = FieldValue::class
+            valueKClass = JsonField::class
             valueClassName = valueKClass.simpleName!!
             valueClassTypeParameterName = null
             defaultValue = CodeBlock.builder()

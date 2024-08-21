@@ -10,7 +10,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.cares0",
         artifactId = "rest-docs-kdsl-ksp",
-        version = "1.0.3"
+        version = "1.0.4"
     )
 
     pom {

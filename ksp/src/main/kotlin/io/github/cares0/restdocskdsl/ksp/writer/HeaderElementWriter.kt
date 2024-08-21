@@ -28,8 +28,8 @@ abstract class HeaderElementWriter(
             .superclass(ApiComponent::class.parameterizedBy(HeaderDescriptor::class))
             .addProperties(
                 filteredElements.map { element ->
-                    PropertySpec.builder(element.name, HeaderValue::class)
-                        .initializer("${HeaderValue::class.simpleName}(\"${element.name}\")")
+                    PropertySpec.builder(element.name, HeaderField::class)
+                        .initializer("${HeaderField::class.simpleName}(\"${element.name}\")")
                         .build()
                 }
             )

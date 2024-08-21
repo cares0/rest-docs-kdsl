@@ -32,19 +32,20 @@ Compile the source code by running the following command:
 ./gradlew compileKotlin
 ```
 
-## 3. Verify DSL File Generation
+## 3. Check DSL File Generation
 
-Check that the file `TutorialApiSpec.kt` has been generated under the `/build/generated/ksp/main/kotlin/${PACKAGE_OF_THE_HANDLER}/dsl` package.
+Check that the file `TutorialApiSpec.kt` has been generated 
+under the `/build/generated/ksp/main/kotlin/${package_where_handler_is_declared}/dsl` package.
 
 **TutorialApiSpec.kt**
 ```kotlin
-public object TutorialApiResponseBody : FieldComponent(false) {
-  public val id: FieldValue = FieldValue("id", false, 0)
+public object TutorialApiResponseBody : BodyComponent(false) {
+  public val id: JsonField = JsonField("id", false, 0)
 
-  public val num: FieldValue = FieldValue("num", false, 0)
+  public val num: JsonField = JsonField("num", false, 0)
 
   init {
-    addValues(
+    addFields(
       `id`,
       `num`
     )
@@ -52,10 +53,10 @@ public object TutorialApiResponseBody : FieldComponent(false) {
 }
 
 public object TutorialApiQueryParameter : ApiComponent<ParameterDescriptor>() {
-  public val id: QueryParameterValue = QueryParameterValue("id")
+  public val id: QueryParameterField = QueryParameterField("id")
 
   init {
-    addValues(
+    addFields(
       `id`
     )
   }
@@ -84,10 +85,10 @@ public data class TutorialApiSpec(
 ```
 
 This file contains the classes that enable DSL-based documentation for the handler.
-(If you've used Querydsl before, think of it as analogous to Q classes.)
+(If you’ve used Querydsl before, you can think of it as similar to the Q classes.)
 
 You can start documenting by using the class that implements `ApiSpec` (in this example, `TutorialApiSpec`). 
-The naming convention for this class is the handler function name plus "ApiSpec".
+The naming convention for this class is the handler function name + "ApiSpec".
 
 ## 4. Write a Test Case
 
@@ -123,8 +124,8 @@ In the function block of the `document` function's second parameter,
 you can call functions corresponding to the HTTP components 
 (e.g., request parameters, response body) defined in the API spec to write the DSL.
 
-The API we created above includes request parameters and a response body,
-so you can call `queryParameters` and `responseBody`.
+Since the API we created earlier includes request parameters and a response body, 
+you can call `queryParameters` and `responseBody`.
 
 ```kotlin
 document(TutorialApiSpec("tutorial")) {
@@ -135,10 +136,10 @@ document(TutorialApiSpec("tutorial")) {
 }
 ```
 
-For more details on the available functions for each component, 
-refer to [HTTP Components DSL](../guides/dsl-interface.md#http-component-dsl).
+For more details on the callable functions for each component,  
+refer to the [HTTP Components DSL](../guides/dsl-interface.md#http-component-dsl).
 
-## 6. Write the Component DSL
+## 6. Write the Field DSL
 
 ```kotlin
 document(TutorialApiSpec("tutorial")) {
@@ -156,30 +157,31 @@ The request parameters for the API we created include "id", and the response bod
 These fields are declared as properties of the receiver object in the function blocks.
 (Refer to the `TutorialApiQueryParameter` and `TutorialApiResponseBody` classes in the `TutorialApiSpec.kt` file.)
 
-You can document these fields by calling their properties and using infix functions.
+Therefore, you can call these properties and write the documentation using infix notations.
 
-For more details on the available infix functions, 
+For more details on callable infix notations,
 refer to [Component DSL](../guides/dsl-interface#component-dsl).
 
 ## 7. Run the Test
 
-After everything is written, run the test.
+After completing all the steps, run the test.
 
 Check the generated snippets under `build/generated-snippets/${DOCUMENT_IDENTIFIER}`.
 
-This library does not support creating and integrating Asciidoc documents from the generated snippets, 
-so continue using Spring REST Docs as before. 
+This library does not support creating and integrating Asciidoc documents from the generated snippets.
+Therefore, follow the same process as you would with the existing Spring REST Docs. 
 For more details, refer to [Working with Asciidoctor](https://docs.spring.io/spring-restdocs/docs/current/reference/htmlsingle/#working-with-asciidoctor).
 
 ---
 
 ## Next Steps
 
-Now that you've learned the basics of using this library through the tutorial, 
-I recommend exploring the [DSL Interface](../guides/dsl-interface) documentation 
-to understand how this library provides DSL functionality.
+Now that you've learned the basics of using this library through the tutorial,
+it is recommended to explore how this library provides DSLs through the [DSL Interface](../guides/dsl-interface) documentation.
 
-If you prefer to write test cases first, you can implement the DSL interface directly to create documentation.
+If you prefer writing test code first, 
+you can also manually implement the DSL interface to design 
+and document the entire request and response spec for your API.
 
 For more detailed usage examples, refer to the `example` package in the GitHub repository, 
 which demonstrates the full capabilities of this library.

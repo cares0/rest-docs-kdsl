@@ -20,7 +20,7 @@ interface RequestHeaderSnippetGenerator<C: ApiComponent<HeaderDescriptor>> : Sni
         element: ApiComponent<HeaderDescriptor>,
     ): Snippet {
         return HeaderDocumentation.requestHeaders(
-            element.apiValues.map { it.descriptor }
+            element.apiFields.map { it.descriptor }
         )
     }
 

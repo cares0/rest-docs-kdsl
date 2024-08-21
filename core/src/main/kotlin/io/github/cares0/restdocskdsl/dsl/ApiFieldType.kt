@@ -5,25 +5,25 @@ import kotlin.reflect.KClass
 
 /**
  * This is a wrapper class for [JsonFieldType], which wraps frequently used types for convenience.
- * It is used as an argument in the [ApiValue.typeOf] function.
+ * It is used as an argument in the [ApiField.typeOf] function.
  *
  * @param customFormat specifies commonly used formats for each type.
  * @author YoungJun Kim
  */
-open class ApiValueType(
+open class ApiFieldType(
     val fieldType: JsonFieldType,
     open val customFormat: String? = null
 )
 
-data object ARRAY: ApiValueType(JsonFieldType.ARRAY)
-data object BOOLEAN: ApiValueType(JsonFieldType.BOOLEAN)
-data object OBJECT: ApiValueType(JsonFieldType.OBJECT)
-data object NUMBER: ApiValueType(JsonFieldType.NUMBER)
-data object NULL: ApiValueType(JsonFieldType.NULL)
-data object STRING: ApiValueType(JsonFieldType.STRING)
-data object ANY: ApiValueType(JsonFieldType.VARIES)
-data object DATE: ApiValueType(JsonFieldType.STRING, "yyyy-MM-dd")
-data object DATETIME: ApiValueType(JsonFieldType.STRING, "yyyy-MM-ddTHH:mm:ss")
+data object ARRAY: ApiFieldType(JsonFieldType.ARRAY)
+data object BOOLEAN: ApiFieldType(JsonFieldType.BOOLEAN)
+data object OBJECT: ApiFieldType(JsonFieldType.OBJECT)
+data object NUMBER: ApiFieldType(JsonFieldType.NUMBER)
+data object NULL: ApiFieldType(JsonFieldType.NULL)
+data object STRING: ApiFieldType(JsonFieldType.STRING)
+data object ANY: ApiFieldType(JsonFieldType.VARIES)
+data object DATE: ApiFieldType(JsonFieldType.STRING, "yyyy-MM-dd")
+data object DATETIME: ApiFieldType(JsonFieldType.STRING, "yyyy-MM-ddTHH:mm:ss")
 
 /**
  * Used for documenting Enum types.
@@ -32,7 +32,7 @@ data object DATETIME: ApiValueType(JsonFieldType.STRING, "yyyy-MM-ddTHH:mm:ss")
 data class ENUM<T : Enum<T>>(
     val enums: Collection<T>,
     override val customFormat: String? = enums.joinToString(", "),
-) : ApiValueType(JsonFieldType.STRING) {
+) : ApiFieldType(JsonFieldType.STRING) {
 
     /**
      * This constructor is used when filtering specific values from the Enum

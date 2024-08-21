@@ -28,8 +28,8 @@ class RequestPartElementWriter(
             .superclass(ApiComponent::class.parameterizedBy(RequestPartDescriptor::class))
             .addProperties(
                 filteredElements.map { element ->
-                    PropertySpec.builder(element.name, RequestPartValue::class)
-                        .initializer("${RequestPartValue::class.simpleName}(\"${element.name}\")")
+                    PropertySpec.builder(element.name, RequestPartField::class)
+                        .initializer("${RequestPartField::class.simpleName}(\"${element.name}\")")
                         .build()
                 }
             )

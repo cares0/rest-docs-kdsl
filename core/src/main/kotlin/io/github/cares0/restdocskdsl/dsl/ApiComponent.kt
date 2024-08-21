@@ -7,14 +7,14 @@ import org.springframework.restdocs.snippet.AbstractDescriptor
  *
  * This class is used by the [SnippetGenerator] to convert each type into the appropriate snippet.
  *
- * @see ApiValue
+ * @see ApiField
  * @see SnippetGenerator
  * @author YoungJun Kim
  */
 abstract class ApiComponent<T: AbstractDescriptor<T>> {
-    internal val apiValues: MutableList<ApiValue<T>> = mutableListOf()
+    internal val apiFields: MutableList<ApiField<T>> = mutableListOf()
 
-    fun addValues(vararg values: ApiValue<T>) {
-        this.apiValues.addAll(values)
+    fun addFields(vararg fields: ApiField<T>) {
+        this.apiFields.addAll(fields)
     }
 }

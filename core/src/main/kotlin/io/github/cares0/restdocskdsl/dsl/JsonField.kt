@@ -3,75 +3,75 @@ package io.github.cares0.restdocskdsl.dsl
 import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation
 
-open class FieldValue(
+open class JsonField(
     final override val name: String,
     isFieldOfArray: Boolean,
     previousArrayCount: Int,
-): ApiValue<FieldDescriptor> {
+): ApiField<FieldDescriptor> {
     override val descriptor: FieldDescriptor = if (isFieldOfArray && previousArrayCount > 1) {
         PayloadDocumentation.fieldWithPath("[].$name")
     } else PayloadDocumentation.fieldWithPath(name)
 
-    override infix fun means(description: String): FieldValue {
+    override infix fun means(description: String): JsonField {
         descriptor.description(description)
         return this
     }
 
-    override infix fun typeOf(type: ApiValueType): FieldValue {
+    override infix fun typeOf(type: ApiFieldType): JsonField {
         descriptor.type(type.fieldType)
         if (type.customFormat != null) descriptor.format(type.customFormat!!)
         return this
     }
 
-    override infix fun formattedAs(format: String): FieldValue {
+    override infix fun formattedAs(format: String): JsonField {
         descriptor.format(format)
         return this
     }
 
-    override infix fun isIgnored(isIgnored: Boolean): FieldValue {
+    override infix fun isIgnored(isIgnored: Boolean): JsonField {
         if (isIgnored) descriptor.ignored()
         return this
     }
 
-    override infix fun isOptional(isOptional: Boolean): FieldValue {
+    override infix fun isOptional(isOptional: Boolean): JsonField {
         if (isOptional) descriptor.optional()
         return this
     }
 }
 
-open class NestedFieldValue<E: ApiComponent<FieldDescriptor>>(
+open class NestedJsonField<E: ApiComponent<FieldDescriptor>>(
     name: String,
     val nestedElement: E,
     isFieldOfArray: Boolean,
     previousArrayCount: Int,
-): FieldValue(name, isFieldOfArray, previousArrayCount) {
+): JsonField(name, isFieldOfArray, previousArrayCount) {
     override val descriptor: FieldDescriptor = if (isFieldOfArray && previousArrayCount > 1) {
         PayloadDocumentation.subsectionWithPath("[].$name")
     } else PayloadDocumentation.subsectionWithPath(name)
 
     open val beneathPathName: String = name
 
-    override infix fun means(description: String): NestedFieldValue<E> {
+    override infix fun means(description: String): NestedJsonField<E> {
         super.means(description)
         return this
     }
 
-    override infix fun typeOf(type: ApiValueType): NestedFieldValue<E> {
+    override infix fun typeOf(type: ApiFieldType): NestedJsonField<E> {
         super.typeOf(type)
         return this
     }
 
-    override infix fun formattedAs(format: String): NestedFieldValue<E> {
+    override infix fun formattedAs(format: String): NestedJsonField<E> {
         super.formattedAs(format)
         return this
     }
 
-    override infix fun isIgnored(isIgnored: Boolean): NestedFieldValue<E> {
+    override infix fun isIgnored(isIgnored: Boolean): NestedJsonField<E> {
         super.isIgnored(isIgnored)
         return this
     }
 
-    override infix fun isOptional(isOptional: Boolean): NestedFieldValue<E> {
+    override infix fun isOptional(isOptional: Boolean): NestedJsonField<E> {
         super.isOptional(isOptional)
         return this
     }
@@ -81,11 +81,11 @@ open class NestedFieldValue<E: ApiComponent<FieldDescriptor>>(
     }
 }
 
-class NestedArrayFieldValue<E: ApiComponent<FieldDescriptor>>(
+class NestedArrayJsonField<E: ApiComponent<FieldDescriptor>>(
     name: String,
     nestedElement: E,
     isFieldOfArray: Boolean,
     previousArrayCount: Int,
-): NestedFieldValue<E>(name, nestedElement, isFieldOfArray, previousArrayCount) {
+): NestedJsonField<E>(name, nestedElement, isFieldOfArray, previousArrayCount) {
     override val beneathPathName: String = "$name.[]"
 }

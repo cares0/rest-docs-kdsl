@@ -12,9 +12,9 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredFunctions
 
 /**
- * Build implementation of [io.github.cares0.restdocskdsl.dsl.ApiComponent] and properties of type [io.github.cares0.restdocskdsl.dsl.ApiValue] in the [KspApiSpecDescriptor] using Kotlin Poet.
+ * Build implementation of [io.github.cares0.restdocskdsl.dsl.ApiComponent] and properties of type [io.github.cares0.restdocskdsl.dsl.ApiField] in the [KspApiSpecDescriptor] using Kotlin Poet.
  *
- * This code uses KotlinPoet to add properties of type `ApiValue` for each implementation
+ * This code uses KotlinPoet to add properties of type `ApiField` for each implementation
  * of `ApiComponent` from the list of [HandlerElement] described in [ApiSpecDescriptor].
  * Depending on the generated `ApiComponent` implementations,
  * it also implements the appropriate [SnippetGenerator] interface in the [io.github.cares0.restdocskdsl.dsl.ApiSpec] implementation to enable DSL usage.
@@ -59,7 +59,7 @@ abstract class KotlinPoetHandlerElementWriter<T: HandlerElement>(
     ): TypeSpec.Builder {
         this.addInitializerBlock(
             CodeBlock.builder()
-                .add("addValues(\n")
+                .add("addFields(\n")
                 .indent()
                 .add(elements.joinToString(separator = ",\n") { "`${it.name}`" })
                 .unindent()

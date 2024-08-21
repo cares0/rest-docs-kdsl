@@ -19,7 +19,7 @@ import org.springframework.restdocs.snippet.Snippet
  *
  * @property [handlerDeclaration] The [KSFunctionDeclaration] of the handler resolved through KSP.
  * @property [handlerElements] A list of [HandlerElement] resolved from the [KSFunctionDeclaration] by [KspHandlerElementResolver].
- *  This list is used by [KotlinPoetHandlerElementWriter] to build [ApiValue] and [ApiComponent] implementations for each specific type.
+ *  This list is used by [KotlinPoetHandlerElementWriter] to build [ApiField] and [ApiComponent] implementations for each specific type.
  *
  * @author YoungJun Kim
  * @see KspHandlerElementResolver

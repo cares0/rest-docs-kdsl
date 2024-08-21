@@ -47,14 +47,14 @@ Additionally, writing the documentation is cumbersome due to the numerous packag
 ### 2. Inconvenience of Checking API Specifications
 When documenting an API after it has been developed, as opposed to writing test code first, 
 you need to check the handler code to recall the request parameters and response fields. 
-Without remembering the specifics of the API, you must manually verify each element's name while writing the documentation.
+Without remembering the specifics of the API, you must manually verify each field's name while writing the documentation.
 
 ### 3. Maintenance Challenges
 Ideally, APIs should not change frequently. 
 However, if the API changes and the test code isn’t updated first, 
-you’ll need to update the documentation code accordingly. 
-This requires locating and modifying the relevant sections of the test code, 
-or identifying and fixing errors based on test results.
+you’ll need to update the documentation code accordingly.
+In such cases, you have to find the corresponding part of the API documentation manually 
+or correct it based on errors in the actual test results.
 
 ---
 
@@ -62,11 +62,12 @@ or identifying and fixing errors based on test results.
 ### 1. Simplification with Kotlin DSL
 DSL stands for Domain Specific Language, which refers to a language tailored to a specific domain.
 
-Kotlin supports features like extension functions, infix notation, functional programming, and operator overloading, 
-making it ideal for creating DSLs. 
-This library leverages these Kotlin features to simplify verbose Spring REST Docs code into a DSL specialized for its domain.
+Kotlin supports features like extension function, infix notation, functional programming, and operator overloading,
+and more, which can be leveraged to create DSLs
+This library uses these features of Kotlin to simplify verbose Spring REST Docs code into a DSL 
+tailored to the Spring REST Docs domain.
 
-Let’s rewrite the earlier Spring REST Docs example using the Kotlin DSL provided by this library:
+Let’s rewrite the previous Spring REST Docs example using the Kotlin DSL provided by this library.
 ```kotlin
 document(ExampleApiSpec("identifier")) {
     queryParameters {
@@ -78,17 +79,17 @@ document(ExampleApiSpec("identifier")) {
     }
 }
 ```
-This code is much more readable and provides clear descriptions for each element.
+This code is much more readable and provides clear descriptions for each field.
 
 ### 2. Ease of Checking API Specifications
-All DSLs can be written based on Kotlin’s functional programming principles, 
+All DSLs can be written based on Kotlin's functional programming, 
 with each function having a specific DSL class as its receiver.
 
 In the example above, `queryParameters` and `responseBody` functions are member functions of the DSL class `ExampleApiSpec`, 
 and the second parameter of the `document` function is a function with `ExampleApiSpec` as its receiver.
 
-Therefore, using your IDE's code completion feature, 
-you can easily verify the specifications of an API using the `this` keyword.
+Thus, by leveraging the code completion feature of the IDE, 
+you can easily verify the API specifications using the `this` keyword.
 ```kotlin
 document(ExampleApiSpec("identifier")) {
     this.queryParameters {
@@ -100,7 +101,7 @@ document(ExampleApiSpec("identifier")) {
     }
 }
 ```
-When you type the `this` keyword, the IDE shows you the available `queryParameters` and `responseBody` functions. 
+When you type the `this` keyword, the IDE's code completion will show the callable `queryParameters` and `responseBody` functions. 
 Similarly, you can view all member properties like `param1` and `field1` within each function.
 
 ### 3. Detecting Changes at Compile Time
