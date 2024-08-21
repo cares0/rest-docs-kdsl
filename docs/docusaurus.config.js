@@ -77,63 +77,72 @@ const config = {
     ],
   ],
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
-      // Replace with your project's social card
-      // image: 'img/docusaurus-social-card.jpg',
-      navbar: {
-        title: 'REST Docs KDSL',
-        // logo: {
-        //   alt: 'REST Docs KDSL',
-        //   src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg',
-        // },
-        items: [
-          {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-            label: 'Docs',
-          },
-          {
-            href: 'https://github.com/cares0/rest-docs-kdsl',
-            label: 'GitHub',
-            position: 'right',
-          },
-          {
-            type: 'localeDropdown',
-            position: 'right',
-          },
-        ],
-      },
-      footer: {
-        style: 'dark',
-        links: [
-          // {
-          //   title: 'Docs',
-          //   items: [
-          //     {
-          //       label: 'Tutorial',
-          //       to: '/docs/intro',
-          //     },
-          //   ],
+  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+      ({
+        // Replace with your project's social card
+        // image: 'img/docusaurus-social-card.jpg',
+        navbar: {
+          title: 'REST Docs KDSL',
+          // logo: {
+          //   alt: 'REST Docs KDSL',
+          //   src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg',
           // },
-          // {
-          //   title: 'More',
-          //   items: [
-          //     {
-          //       label: 'GitHub',
-          //       href: 'https://github.com/facebook/docusaurus',
-          //     },
-          //   ],
-          // },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} YoungJun Kim. Built with Docusaurus.`,
-      },
-      prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
-      },
-    }),
+          items: [
+            {
+              type: 'docSidebar',
+              sidebarId: 'tutorialSidebar',
+              position: 'left',
+              label: 'Docs',
+            },
+            {
+              href: 'https://github.com/cares0/rest-docs-kdsl',
+              label: 'GitHub',
+              position: 'right',
+            },
+            {
+              type: 'localeDropdown',
+              position: 'right',
+            },
+          ],
+        },
+        footer: {
+          style: 'dark',
+          links: [
+            // {
+            //   title: 'Docs',
+            //   items: [
+            //     {
+            //       label: 'Tutorial',
+            //       to: '/docs/intro',
+            //     },
+            //   ],
+            // },
+            // {
+            //   title: 'More',
+            //   items: [
+            //     {
+            //       label: 'GitHub',
+            //       href: 'https://github.com/facebook/docusaurus',
+            //     },
+            //   ],
+            // },
+          ],
+          copyright: `Copyright © ${new Date().getFullYear()} YoungJun Kim. Built with Docusaurus.`,
+        },
+        prism: {
+          theme: prismThemes.github,
+          darkTheme: prismThemes.dracula,
+        },
+      }),
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'google-site-verification',
+        content: 'QsEzQT9h2oy4eEo8LmlJguhlEYBogNZ3DQEA-IsVvcY'
+      }
+    }
+  ]
 };
 
 export default config;
