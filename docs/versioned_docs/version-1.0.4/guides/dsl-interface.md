@@ -210,6 +210,76 @@ The DSL uses infix notations, and all functions return `ApiField` itself, enabli
 | `isIgnored`       | Ignores the element in the documentation. Corresponds to `org.springframework.restdocs.snippet.IgnorableDescriptor.ignored`. | `Boolean`         |
 | `isOptional`      | Marks the element as optional. Corresponds to `optional()` in each `AbstractDescriptor` implementation. | `Boolean`      |
 
+### ApiFieldType
+
+This class is a wrapper around `JsonFieldType` and is designed to simplify the documentation of commonly used formats.
+
+```kotlin
+open class ApiFieldType(
+    val fieldType: JsonFieldType,
+    open val customFormat: String? = null
+)
+
+data object ARRAY: ApiFieldType(JsonFieldType.ARRAY)
+data object BOOLEAN: ApiFieldType(JsonFieldType.BOOLEAN)
+data object OBJECT: ApiFieldType(JsonFieldType.OBJECT)
+data object NUMBER: ApiFieldType(JsonFieldType.NUMBER)
+data object NULL: ApiFieldType(JsonFieldType.NULL)
+data object STRING: ApiFieldType(JsonFieldType.STRING)
+data object ANY: ApiFieldType(JsonFieldType.VARIES)
+data object DATE: ApiFieldType(JsonFieldType.STRING, "yyyy-MM-dd")
+data object DATETIME: ApiFieldType(JsonFieldType.STRING, "yyyy-MM-ddTHH:mm:ss")
+```
+
+Each `ApiFieldType` implementation adds the value of the `customFormat` property as a format attribute 
+when implementing the `typeOf` function.
+
+```kotlin
+override infix fun typeOf(type: ApiFieldType): JsonField {
+    descriptor.type(type.fieldType)
+    if (type.customFormat != null) descriptor.format(type.customFormat!!)
+    return this
+}
+```
+
+This function is implemented in `JsonField`. For objects like `DATE` and `DATETIME` that have a `customFormat`, 
+the corresponding value is added to the format attribute.
+
+```kotlin
+data object UUID: ApiFieldType(JsonFieldType.STRING, "UUID format")
+```
+
+If there are custom formats frequently used in your project, 
+you can extend `ApiFieldType` and create your own, like the example above.
+
+```kotlin
+data class ENUM<T : Enum<T>>(
+    val enums: Collection<T>,
+    override val customFormat: String? = enums.joinToString(", "),
+) : ApiFieldType(JsonFieldType.STRING) {
+
+    constructor(
+        clazz: KClass<T>,
+        filter: (T.() -> Boolean)? = null
+    ) : this(
+        enums = clazz.java.enumConstants.asList().let {
+            if (filter != null) it.filter(filter) else it
+        },
+    )
+
+}
+```
+
+A convenience object is also provided for `Enum` types, making it easier to document them.
+
+```kotlin
+enumValue means "enum" typeOf ENUM(listOf(EnumExample.A, EnumExample.B))
+enumValue means "enum" typeOf ENUM(EnumExample::class) { isA() || isB() }
+```
+
+Two constructors allow you to specify possible values. The first line provides a list of possible values directly,
+while the second line filters the possible values by calling functions defined in the Enum.
+
 ### Nested JSON Fields
 
 JSON fields can be simple values like strings or numbers, 

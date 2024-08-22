@@ -181,6 +181,72 @@ responseBody {
 | `isIgnored`   | 해당 필드를 문서화하지 않고 무시합니다. `org.springframework.restdocs.snippet.IgnorableDescriptor.ignored`에 상응됩니다.                                                    | `Boolean`       |
 | `isOptional`  | 해당 필드의 필수성을 나타내기 위해 사용합니다. 각 `AbstractDescriptor`구현체의 `optional()`에 상응됩니다.                                                                           | `Boolean`       |
 
+### ApiFieldType
+이 클래스는 `JsonFieldType`을 Wrapping하는 클래스로, 자주 지정하는 형식들을 간단하게 문서화 할 수 있도록 도와줍니다.
+
+```kotlin
+open class ApiFieldType(
+    val fieldType: JsonFieldType,
+    open val customFormat: String? = null
+)
+
+data object ARRAY: ApiFieldType(JsonFieldType.ARRAY)
+data object BOOLEAN: ApiFieldType(JsonFieldType.BOOLEAN)
+data object OBJECT: ApiFieldType(JsonFieldType.OBJECT)
+data object NUMBER: ApiFieldType(JsonFieldType.NUMBER)
+data object NULL: ApiFieldType(JsonFieldType.NULL)
+data object STRING: ApiFieldType(JsonFieldType.STRING)
+data object ANY: ApiFieldType(JsonFieldType.VARIES)
+data object DATE: ApiFieldType(JsonFieldType.STRING, "yyyy-MM-dd")
+data object DATETIME: ApiFieldType(JsonFieldType.STRING, "yyyy-MM-ddTHH:mm:ss")
+```
+
+각 ApiFieldType 구현체들은 `typeOf`함수를 구현때 ApiFieldType의 `customFormat` 프로퍼티의 값을 format 속성으로 추가해줍니다.
+
+```kotlin
+override infix fun typeOf(type: ApiFieldType): JsonField {
+    descriptor.type(type.fieldType)
+    if (type.customFormat != null) descriptor.format(type.customFormat!!)
+    return this
+}
+```
+
+JsonField에서 구현한 함수입니다. DATE, DATETIME과 같은 customFormat이 있는 오브젝트인 경우에는 format 속성에 해당 값이 추가됩니다.
+
+```kotlin
+data object UUID: ApiFieldType(JsonFieldType.STRING, "UUID format")
+```
+
+만약 프로젝트에서 자주 사용하는 커스텀한 형식이 있다면, 위와 같이 ApiFieldType을 상속받아서 직접 만들어보세요.
+
+```
+data class ENUM<T : Enum<T>>(
+    val enums: Collection<T>,
+    override val customFormat: String? = enums.joinToString(", "),
+) : ApiFieldType(JsonFieldType.STRING) {
+
+    constructor(
+        clazz: KClass<T>,
+        filter: (T.() -> Boolean)? = null
+    ) : this(
+        enums = clazz.java.enumConstants.asList().let {
+            if (filter != null) it.filter(filter) else it
+        },
+    )
+
+}
+```
+
+Enum 타입에 대해서도 편의 객체를 제공합니다. 문서화 하는 경우에도 편리하게 할 수 있습니다.
+
+```
+enumValue means "enum" typeOf ENUM(listOf(EnumExample.A, EnumExample.B))
+enumValue means "enum" typeOf ENUM(EnumExample::class) { isA() || isB() }
+```
+
+두 개의 생성자를 통해서 가능한 형식을 지정할 수 있습니다.
+첫 번째 줄은 직접 가능한 값들만 리스트로 제공하는 방식이며, 두 번째 줄은 해당 Enum에 정의된 함수를 호출하여 가능한 값들만 필터링하는 방식입니다.
+
 ### 중첩된 JSON 필드
 JSON 데이터의 필드는 문자열, 숫자 등과 같이 단일 값을 가질 수도 있지만,
 객체 혹은 객체 리스트 처럼 중첩된 필드를 가지는 데이터를 표현할 수도 있습니다.

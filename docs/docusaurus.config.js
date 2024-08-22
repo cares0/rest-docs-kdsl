@@ -123,15 +123,28 @@ const config = {
             //     },
             //   ],
             // },
-            // {
-            //   title: 'More',
-            //   items: [
-            //     {
-            //       label: 'GitHub',
-            //       href: 'https://github.com/facebook/docusaurus',
-            //     },
-            //   ],
-            // },
+            {
+              title: 'More',
+              items: [
+                {
+                  label: 'GitHub',
+                  href: 'https://github.com/cares0',
+                },
+                {
+                  label: 'Blog',
+                  href: 'https://cares-log.tistory.com/',
+                },
+              ],
+            },
+            {
+              title: 'Contact',
+              items: [
+                {
+                  label: 'Email',
+                  href: 'mailto:cares00000@gmail.com',
+                },
+              ],
+            },
           ],
           copyright: `Copyright © ${new Date().getFullYear()} YoungJun Kim. Built with Docusaurus.`,
         },

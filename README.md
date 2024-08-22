@@ -4,9 +4,10 @@
 This library provides a Kotlin DSL to simplify and enhance 
 the readability of code used for documenting APIs with Spring REST Docs.
 
-By leveraging KSP, the library analyzes Spring handlers at compile time and generates DSL classes for each handler. 
+Using [KSP](https://kotlinlang.org/docs/ksp-overview.html), the library analyzes Spring handlers at compile time 
+and generates DSL classes for each handler. 
 These generated DSL classes allow you to write Spring REST Docs test code 
-and generate adoc files for each API in a streamlined manner.
+and generate adoc files for each API.
 
 ## Documentation
 #### [cares0.github.io/rest-docs-kdsl](https://cares0.github.io/rest-docs-kdsl)
@@ -20,8 +21,6 @@ and generate adoc files for each API in a streamlined manner.
 Version 1.0.4 is the minimum version required for this library.
 
 ## Setup
-
-Before using this library, you need to perform some initial setup.
 
 ### build.gradle
 
