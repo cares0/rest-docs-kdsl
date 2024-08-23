@@ -41,7 +41,20 @@ dependencies {
 }
 ```
 
----
+## Issue Reporting
+Feedback is always welcome. For any questions or issues, please leave them in the Issues section. 
+
+Before creating a new issue, please check the existing issue list to see if the issue has already been reported. 
+
+There is no specific issue template, so providing as detailed an explanation as possible is appreciated. 
+Including a reproducible example code would be greatly appreciated.
+
+## Contributing
+Contributions to the project are welcome. Any Issues or PRs submitted will be reviewed.
+
+This project follows the [Kotlin Coding Convention](https://kotlinlang.org/docs/coding-conventions.html),
+and by contributing, it is considered that you agree to the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
+
 ## LICENSE
 ```
 Copyright 2024 YoungJun Kim
@@ -55,6 +68,6 @@ You may obtain a copy of the License at
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
+See the License for the speㄷcific language governing permissions and
 limitations under the License.
 ```
