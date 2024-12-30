@@ -62,11 +62,24 @@ interface BodyElementExtractor {
         property: KSPropertyDeclaration,
     ): BodyElement {
         val typeArgumentReference = property.getActualTypeOfTypeArgument(parentTypeReference)!!
-        return createBodyElement(
-            name = property.simpleName.asString(),
-            nestedElementName = typeArgumentReference.getSimpleName(),
-            nestedElements = extractElements(typeArgumentReference)
-        )
+
+        if (KotlinBuiltinName.isArrayBasedType(typeArgumentReference.getQualifiedName()!!)) {
+            val arrayTypeArgumentReference = typeArgumentReference.getTypeArguments().first().type!!
+            val nestedElements = extractElements(arrayTypeArgumentReference)
+
+            return createBodyElement(
+                name = property.simpleName.asString(),
+                nestedElementName = if (nestedElements.isEmpty()) null else arrayTypeArgumentReference.getSimpleName(),
+                nestedElements = nestedElements.ifEmpty { null },
+                isArrayBasedType = true,
+            )
+        } else {
+            return createBodyElement(
+                name = property.simpleName.asString(),
+                nestedElementName = typeArgumentReference.getSimpleName(),
+                nestedElements = extractElements(typeArgumentReference)
+            )
+        }
     }
 
     fun handleCustomObjectType(
