@@ -1,0 +1,8 @@
+{
+  "label": "시작하기",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "이 라이브러리를 사용하기 위한 설정 및 튜토리얼을 제공합니다."
+  }
+}
