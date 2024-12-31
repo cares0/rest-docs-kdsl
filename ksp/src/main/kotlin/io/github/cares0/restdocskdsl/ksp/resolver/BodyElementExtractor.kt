@@ -19,68 +19,81 @@ interface BodyElementExtractor {
     ): BodyElement
 
     fun extractElements(ksTypeReference: KSTypeReference): List<BodyElement> {
-
         return ksTypeReference
             .getAsKsClassDeclaration()
             .getDeclaredProperties()
-            .mapNotNull { property -> handleProperty(ksTypeReference, property) }
+            .mapNotNull { property ->
+                handleProperty(
+                    parentType = ksTypeReference,
+                    property = property
+                )
+            }
             .toList()
     }
 
     fun handleProperty(
-        parentTypeReference: KSTypeReference,
+        parentType: KSTypeReference,
         property: KSPropertyDeclaration,
     ): BodyElement? {
-        val propertyTypeName = property.type.getQualifiedName()!!
+        var isArrayBasedType = false
+        var baseType = unwrapIfGenericType(parentType, property)
 
-        return when {
-            KotlinBuiltinName.isPrimitiveType(propertyTypeName)
-                    || propertyTypeName == KotlinBuiltinName.MAP
-                    || property.type.isJavaTimeApi() -> createBodyElement(property.simpleName.asString())
-            KotlinBuiltinName.isArrayBasedType(propertyTypeName) -> handleArrayBasedType(property)
-            property.isGenericType() -> handleGenericType(parentTypeReference, property)
-            else -> handleCustomObjectType(property)
+        if (baseType.isArrayBasedType()) {
+            baseType = baseType.getTypeArguments().first().type!!
+            isArrayBasedType = true
         }
-    }
 
-    fun handleArrayBasedType(
-        property: KSPropertyDeclaration,
-    ): BodyElement {
-        val typeArgumentReference = property.type.getTypeArguments().first().type!!
-        val nestedElements = extractElements(typeArgumentReference)
-
-        return createBodyElement(
-            name = property.simpleName.asString(),
-            nestedElementName = if (nestedElements.isEmpty()) null else typeArgumentReference.getSimpleName(),
-            nestedElements = nestedElements.ifEmpty { null },
-            isArrayBasedType = true,
+        return resolveBodyElement(
+            type = baseType,
+            elementName = property.simpleName.asString(),
+            isArrayBasedType = isArrayBasedType,
         )
     }
 
-    fun handleGenericType(
-        parentTypeReference: KSTypeReference,
+    private fun unwrapIfGenericType(
+        parentType: KSTypeReference,
         property: KSPropertyDeclaration,
-    ): BodyElement {
-        val typeArgumentReference = property.getActualTypeOfTypeArgument(parentTypeReference)!!
-        return createBodyElement(
-            name = property.simpleName.asString(),
-            nestedElementName = typeArgumentReference.getSimpleName(),
-            nestedElements = extractElements(typeArgumentReference)
-        )
+    ): KSTypeReference {
+        return if (property.isGenericType()) property.getActualTypeOfTypeArgument(parentType)!!
+        else property.type
     }
 
-    fun handleCustomObjectType(
-        property: KSPropertyDeclaration,
+    fun resolveBodyElement(
+        type: KSTypeReference,
+        elementName: String,
+        isArrayBasedType: Boolean = false,
     ): BodyElement? {
-        val ksClassDeclaration = property.type.getAsIfKsClassDeclaration()
+        return if (isNotNestedType(type)) {
+            createBodyElement(
+                name = elementName,
+                isArrayBasedType = true
+            )
+        } else resolveNestedType(type, elementName, isArrayBasedType)
+    }
+
+    private fun isNotNestedType(type: KSTypeReference): Boolean {
+        val typeName = type.getQualifiedName()!!
+        return (KotlinBuiltinName.isPrimitiveType(typeName)
+                || typeName == KotlinBuiltinName.MAP
+                || type.isJavaTimeApi())
+    }
+
+    fun resolveNestedType(
+        propertyTypeReference: KSTypeReference,
+        propertyName: String,
+        isArrayBasedType: Boolean = false,
+    ): BodyElement? {
+        val ksClassDeclaration = propertyTypeReference.getAsIfKsClassDeclaration()
         if (ksClassDeclaration != null) {
             return when (ksClassDeclaration.classKind) {
-                ClassKind.ENUM_CLASS -> createBodyElement(property.simpleName.asString())
+                ClassKind.ENUM_CLASS -> createBodyElement(propertyName)
                 ClassKind.CLASS -> {
+                    val nestedElements = extractElements(propertyTypeReference)
                     createBodyElement(
-                        name = property.simpleName.asString(),
-                        nestedElementName = property.type.getSimpleName(),
-                        nestedElements = extractElements(property.type)
+                        name = propertyName,
+                        nestedElementName = propertyTypeReference.getSimpleName(),
+                        nestedElements = nestedElements.ifEmpty { null },
+                        isArrayBasedType = isArrayBasedType,
                     )
                 }
                 else -> return null

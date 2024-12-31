@@ -43,6 +43,11 @@ fun KSTypeReference.isServletApi(): Boolean {
     return this.getQualifiedName()?.startsWith("jakarta.servlet") ?: false
 }
 
+fun KSTypeReference.isArrayBasedType(): Boolean {
+    val typeName = this.getQualifiedName() ?: return false
+    return KotlinBuiltinName.isArrayBasedType(typeName)
+}
+
 fun KSTypeReference.isEnumType(): Boolean {
     return this.getAsIfKsClassDeclaration()?.classKind == ClassKind.ENUM_CLASS
 }
@@ -59,6 +64,11 @@ fun <T: Annotation> KSAnnotated.containsAnnotation(annotationClass: KClass<T>): 
 
 fun KSPropertyDeclaration.isGenericType(): Boolean {
     return this.type.resolve().declaration is KSTypeParameter
+}
+
+fun KSPropertyDeclaration.isArrayBasedType(): Boolean {
+    val typeName = this.type.getQualifiedName() ?: return false
+    return KotlinBuiltinName.isArrayBasedType(typeName)
 }
 
 fun KSPropertyDeclaration.getActualTypeOfTypeArgument(
