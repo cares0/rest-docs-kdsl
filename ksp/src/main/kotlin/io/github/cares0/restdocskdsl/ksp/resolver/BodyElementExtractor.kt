@@ -18,22 +18,35 @@ interface BodyElementExtractor {
         isRootElement: Boolean = false,
     ): BodyElement
 
-    fun extractElements(ksTypeReference: KSTypeReference): List<BodyElement> {
-        return ksTypeReference
+    fun extractElements(
+        ksTypeReference: KSTypeReference,
+        visitedElements: MutableSet<String> = mutableSetOf(),
+    ): List<BodyElement> {
+        val typeName = ksTypeReference.getQualifiedName() ?: return emptyList()
+
+        if (!visitedElements.add(typeName)) return emptyList()
+
+        val elements = ksTypeReference
             .getAsKsClassDeclaration()
             .getDeclaredProperties()
             .mapNotNull { property ->
                 handleProperty(
                     parentType = ksTypeReference,
-                    property = property
+                    property = property,
+                    visitedElements = visitedElements,
                 )
             }
             .toList()
+
+        visitedElements.remove(typeName)
+
+        return elements
     }
 
     fun handleProperty(
         parentType: KSTypeReference,
         property: KSPropertyDeclaration,
+        visitedElements: MutableSet<String>,
     ): BodyElement? {
         var isArrayBasedType = false
         var baseType = unwrapIfGenericType(parentType, property)
@@ -47,6 +60,7 @@ interface BodyElementExtractor {
             type = baseType,
             elementName = property.simpleName.asString(),
             isArrayBasedType = isArrayBasedType,
+            visitedElements = visitedElements,
         )
     }
 
@@ -54,21 +68,32 @@ interface BodyElementExtractor {
         parentType: KSTypeReference,
         property: KSPropertyDeclaration,
     ): KSTypeReference {
-        return if (property.isGenericType()) property.getActualTypeOfTypeArgument(parentType)!!
-        else property.type
+        return if (property.isGenericType()) {
+            property.getActualTypeOfTypeArgument(parentType)!!
+        } else {
+            property.type
+        }
     }
 
     fun resolveBodyElement(
         type: KSTypeReference,
         elementName: String,
         isArrayBasedType: Boolean = false,
+        visitedElements: MutableSet<String>,
     ): BodyElement? {
         return if (isNotNestedType(type)) {
             createBodyElement(
                 name = elementName,
-                isArrayBasedType = true
+                isArrayBasedType = isArrayBasedType,
             )
-        } else resolveNestedType(type, elementName, isArrayBasedType)
+        } else {
+            resolveNestedType(
+                propertyTypeReference = type,
+                propertyName = elementName,
+                isArrayBasedType = isArrayBasedType,
+                visitedElements = visitedElements,
+            )
+        }
     }
 
     private fun isNotNestedType(type: KSTypeReference): Boolean {
@@ -82,24 +107,22 @@ interface BodyElementExtractor {
         propertyTypeReference: KSTypeReference,
         propertyName: String,
         isArrayBasedType: Boolean = false,
+        visitedElements: MutableSet<String>,
     ): BodyElement? {
-        val ksClassDeclaration = propertyTypeReference.getAsIfKsClassDeclaration()
-        if (ksClassDeclaration != null) {
-            return when (ksClassDeclaration.classKind) {
-                ClassKind.ENUM_CLASS -> createBodyElement(propertyName)
-                ClassKind.CLASS -> {
-                    val nestedElements = extractElements(propertyTypeReference)
-                    createBodyElement(
-                        name = propertyName,
-                        nestedElementName = propertyTypeReference.getSimpleName(),
-                        nestedElements = nestedElements.ifEmpty { null },
-                        isArrayBasedType = isArrayBasedType,
-                    )
-                }
-                else -> return null
-            }
-        }
-        return null
-    }
+        val ksClassDeclaration = propertyTypeReference.getAsIfKsClassDeclaration() ?: return null
 
+        return when (ksClassDeclaration.classKind) {
+            ClassKind.ENUM_CLASS -> createBodyElement(propertyName)
+            ClassKind.CLASS -> {
+                val nestedElements = extractElements(propertyTypeReference, visitedElements)
+                createBodyElement(
+                    name = propertyName,
+                    nestedElementName = propertyTypeReference.getSimpleName(),
+                    nestedElements = nestedElements.ifEmpty { null },
+                    isArrayBasedType = isArrayBasedType,
+                )
+            }
+            else -> null
+        }
+    }
 }

@@ -40,7 +40,7 @@ class KspHandlerElementResolver(
     private val functionResolver = FunctionResolverComposite(
         environment,
         RequestCookieDocsAnnotationElementResolver(logger),
-        io.github.cares0.restdocskdsl.ksp.resolver.RequestHeaderDocsAnnotationElementResolver(logger),
+        RequestHeaderDocsAnnotationElementResolver(logger),
         SimpleResponseObjectResolver(logger),
         ArrayBasedResponseObjectResolver(logger),
         ResponseCookieElementResolver(logger),
